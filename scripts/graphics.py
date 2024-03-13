@@ -1,5 +1,9 @@
 # graphics.py
-"""Simple object oriented graphics library
+"""
+SOURCE: John Zelle's website (https://mcsp.wartburg.edu/zelle/python/graphics.py)
+LAST ACCESSED ON MARCH 13th, 2024
+
+Simple object oriented graphics library
 
 The library is designed to make it very easy for novice programmers to
 experiment with computer graphics in an object oriented fashion. It is
