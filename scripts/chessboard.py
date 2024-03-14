@@ -2,8 +2,12 @@ import graphics
 import numpy as np
 import tkinter as tk
 import time
+def round_down(num, divisor):
+    return num - (num%divisor)
+
 class chessboard:
     def __init__(self, dimension, squareSize, screenHeight, screenWidth):
+        self.setText = None
         self.window = None
         self.setButton = None
         self.dimension=dimension
@@ -11,6 +15,7 @@ class chessboard:
         self.screenheight=screenHeight
         self.boardArray=np.zeros((self.dimension, self.dimension))
         self.squareSize= squareSize
+
 
 
     def drawBoard(self, screenTitle):
@@ -36,31 +41,34 @@ class chessboard:
             x = 0
             y += self.squareSize
         self.setButton = graphics.Rectangle(graphics.Point(650,0),graphics.Point(800,50))
+        self.setButton.setFill("brown")
         self.setButton.draw(self.window)
-        self.window.getMouse()
+        self.setText = graphics.Text(graphics.Point(725, 25), "Set barriers")
+        self.setText.setFill("orange")
+        self.setText.draw(self.window)
 
-        def setBarriers():
-            master = tk.Tk()
-            master.title("Prompt :")
-            tk.Label(master, text="Please position the barriers").grid()
-            tk.Button(master, text="ok!", command=master.destroy).grid()
-            while True:
-                mouseevent = win.getMouse();
-                if mouseevent.x > 600 or mouseevent.y > 600:
-                    rect1 = setbutton.p1;
-                    rect2 = setbutton.p2;
-                    if setbutton.p1.x < mouseevent.x < setbutton.p2.x and setbutton.p1.y < mouseevent.y < setbutton.p2.y:
-                        settext.setText("Barriers set")
-                        break
-                    else:
-                        continue
+    def setBarriers(self):
+        master = tk.Tk()
+        master.title("Prompt :")
+        tk.Label(master, text="Please position the barriers").grid()
+        tk.Button(master, text="ok!", command=master.destroy).grid()
+        while True:
+            mouseevent = self.window.getMouse();
+            if mouseevent.x > 600 or mouseevent.y > 600:
+                rect1 = self.setButton.p1;
+                rect2 = self.setButton.p2;
+                if rect1.x < mouseevent.x < rect2.p2.x and rect1.y < mouseevent.y < rect2.y:
+                    self.setText.setText("Barriers set")
+                    break
                 else:
-                    lower_bound = round_down(mouseevent.x, 30)
-                    upper_bound = round_down(mouseevent.y, 30)
-                    chessboard[int(upper_bound / 30)][int(lower_bound / 30)] = 1
-                    barrier = Circle(Point(lower_bound + 15, upper_bound + 15), 10)
-                    barrier.setFill("red")
-                    barrier.draw(win)
+                    continue
+            else:
+                lower_bound = round_down(mouseevent.x, 30)
+                upper_bound = round_down(mouseevent.y, 30)
+                chessboard[int(upper_bound / 30)][int(lower_bound / 30)] = 1
+                barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), 10)
+                barrier.setFill("red")
+                barrier.draw(self.window)
 
 
 
