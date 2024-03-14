@@ -5,7 +5,7 @@ import time
 def round_down(num, divisor):
     return num - (num%divisor)
 
-class chessboard:
+class chessBoard:
     def __init__(self, dimension, squareSize, screenHeight, screenWidth):
         self.setText = None
         self.window = None
@@ -65,7 +65,7 @@ class chessboard:
             else:
                 lower_bound = round_down(mouseevent.x, 30)
                 upper_bound = round_down(mouseevent.y, 30)
-                chessboard[int(upper_bound / 30)][int(lower_bound / 30)] = 1
+                self.boardArray[int(upper_bound / 30)][int(lower_bound / 30)] = 1
                 barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), 10)
                 barrier.setFill("red")
                 barrier.draw(self.window)
