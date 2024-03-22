@@ -40,10 +40,10 @@ class chessBoard:
             direction = not direction
             x = 0
             y += self.squareSize
-        self.setButton = graphics.Rectangle(graphics.Point(650,0),graphics.Point(800,50))
+        self.setButton = graphics.Rectangle(graphics.Point(self.screenwidth-150,0),graphics.Point(self.screenwidth,50))
         self.setButton.setFill("brown")
         self.setButton.draw(self.window)
-        self.setText = graphics.Text(graphics.Point(725, 25), "Set barriers")
+        self.setText = graphics.Text(graphics.Point(self.screenwidth-75, 25), "Set barriers")
         self.setText.setFill("orange")
         self.setText.draw(self.window)
 
@@ -54,6 +54,8 @@ class chessBoard:
         tk.Button(master, text="ok!", command=master.destroy).grid()
         while True:
             mouseevent = self.window.getMouse();
+            print(mouseevent.x)
+            print(mouseevent.y)
             if mouseevent.x > 600 or mouseevent.y > 600:
                 rect1 = self.setButton.p1;
                 rect2 = self.setButton.p2;
@@ -63,8 +65,8 @@ class chessBoard:
                 else:
                     continue
             else:
-                lower_bound = round_down(mouseevent.x, 30)
-                upper_bound = round_down(mouseevent.y, 30)
+                lower_bound = round_down(mouseevent.x, self.squareSize)
+                upper_bound = round_down(mouseevent.y,self.squareSize)
                 self.boardArray[int(upper_bound / 30)][int(lower_bound / 30)] = 1
                 barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), 10)
                 barrier.setFill("red")
