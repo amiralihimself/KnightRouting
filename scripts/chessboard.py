@@ -53,13 +53,13 @@ class chessBoard:
         tk.Label(master, text="Please position the barriers").grid()
         tk.Button(master, text="ok!", command=master.destroy).grid()
         while True:
-            mouseevent = self.window.getMouse();
-            print(mouseevent.x)
-            print(mouseevent.y)
-            if mouseevent.x > 600 or mouseevent.y > 600:
+            mouseevent = self.window.getMouse()
+            if mouseevent.x > self.squareSize*self.dimension or mouseevent.y > self.squareSize*self.dimension :
                 rect1 = self.setButton.p1;
+                print(rect1.x, rect1.y)
                 rect2 = self.setButton.p2;
-                if rect1.x < mouseevent.x < rect2.p2.x and rect1.y < mouseevent.y < rect2.y:
+                print(rect2.x, rect2.y)
+                if rect1.x < mouseevent.x < rect2.x and rect1.y < mouseevent.y < rect2.y:
                     self.setText.setText("Barriers set")
                     break
                 else:
@@ -67,8 +67,8 @@ class chessBoard:
             else:
                 lower_bound = round_down(mouseevent.x, self.squareSize)
                 upper_bound = round_down(mouseevent.y,self.squareSize)
-                self.boardArray[int(upper_bound / 30)][int(lower_bound / 30)] = 1
-                barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), 10)
+                self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] = 1
+                barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), self.squareSize/3)
                 barrier.setFill("red")
                 barrier.draw(self.window)
 
