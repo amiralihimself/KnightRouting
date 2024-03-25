@@ -103,6 +103,10 @@ class chessBoard:
                     goalSqr = graphics.Rectangle(graphics.Point(lower_bound, upper_bound), graphics.Point(lower_bound + self.squareSize, upper_bound + self.squareSize))
                     goalSqr.setFill("gold")
                     goalSqr.draw(self.window)
+                    goaltext = graphics.Text(graphics.Point(lower_bound + self.squareSize/2, upper_bound + self.squareSize/2), "G")
+                    goaltext.setTextColor("black")
+                    goaltext.setSize(self.squareSize//2)
+                    goaltext.draw(self.window)
                     break
 
 
