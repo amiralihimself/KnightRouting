@@ -4,7 +4,11 @@ import tkinter as tk
 import time
 def round_down(num, divisor):
     return num - (num%divisor)
-
+def display_prompt(prompt):
+    master = tk.Tk()
+    master.title("Prompt :")
+    tk.Label(master, text=prompt).grid()
+    tk.Button(master, text="Done", command=master.destroy).grid()
 class chessBoard:
     def __init__(self, dimension, squareSize, screenHeight, screenWidth):
         self.setText = None
@@ -15,7 +19,7 @@ class chessBoard:
         self.screenheight=screenHeight
         self.boardArray=np.zeros((self.dimension, self.dimension))
         self.squareSize= squareSize
-
+        self.knightImage=None
 
 
     def drawBoard(self, screenTitle):
@@ -48,17 +52,12 @@ class chessBoard:
         self.setText.draw(self.window)
 
     def setBarriers(self):
-        master = tk.Tk()
-        master.title("Prompt :")
-        tk.Label(master, text="Please position the barriers").grid()
-        tk.Button(master, text="ok!", command=master.destroy).grid()
+        display_prompt("Please position the barriers")
         while True:
             mouseevent = self.window.getMouse()
             if mouseevent.x > self.squareSize*self.dimension or mouseevent.y > self.squareSize*self.dimension :
-                rect1 = self.setButton.p1;
-                print(rect1.x, rect1.y)
-                rect2 = self.setButton.p2;
-                print(rect2.x, rect2.y)
+                rect1 = self.setButton.p1
+                rect2 = self.setButton.p2
                 if rect1.x < mouseevent.x < rect2.x and rect1.y < mouseevent.y < rect2.y:
                     self.setText.setText("Barriers set")
                     break
@@ -68,9 +67,42 @@ class chessBoard:
                 lower_bound = round_down(mouseevent.x, self.squareSize)
                 upper_bound = round_down(mouseevent.y,self.squareSize)
                 self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] = 1
-                barrier = graphics.Circle(graphics.Point(lower_bound + 15, upper_bound + 15), self.squareSize/3)
+                barrier = graphics.Circle(graphics.Point(lower_bound + self.squareSize/2, upper_bound + self.squareSize/2), self.squareSize/3)
                 barrier.setFill("red")
                 barrier.draw(self.window)
 
+    def setSourceAndDestination(self):
+        display_prompt("Please choose the source")
+        while True:
+            mouseevent = self.window.getMouse()
+            if mouseevent.x < self.squareSize*self.dimension and mouseevent.y < self.squareSize*self.dimension:
+                lower_bound = round_down(mouseevent.x, self.squareSize)
+                upper_bound = round_down(mouseevent.y, self.squareSize)
+                if (self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] == 1):
+                    continue
+                else:
+                    srcRow = int(upper_bound / self.squareSize)
+                    srcCol = int(lower_bound / self.squareSize)
+                    self.boardArray[srcRow][srcCol] = 2
+                    self.knightImage = graphics.Image(graphics.Point(0, 0), "../figures/bknight.gif")
+                    self.knightImage.move(lower_bound +  self.squareSize/2, upper_bound +  self.squareSize/2)
+                    self.knightImage.draw(self.window)
+                    break
+        display_prompt("Please choose the destination")
+        while True:
+            mouseevent = self.window.getMouse()
+            if mouseevent.x < self.squareSize*self.dimension and mouseevent.y < self.squareSize*self.dimension:
+                lower_bound = round_down(mouseevent.x, self.squareSize)
+                upper_bound = round_down(mouseevent.y, self.squareSize)
+                if (self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] == 1)  or (self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] == 2):
+                    continue
+                else:
+                    goalRow = int(upper_bound / self.squareSize)
+                    goalCol = int(lower_bound / self.squareSize)
+                    self.boardArray[goalRow][goalCol] = 3
+                    goalSqr = graphics.Rectangle(graphics.Point(lower_bound, upper_bound), graphics.Point(lower_bound + self.squareSize, upper_bound + self.squareSize))
+                    goalSqr.setFill("gold")
+                    goalSqr.draw(self.window)
+                    break
 
 
