@@ -1,8 +1,14 @@
 from chessboard import chessBoard
-
+import search_algorithms as searchAlgos
 
 if __name__ == "__main__":
-     c1=chessBoard(20,30, 600,800)
-     c1.drawBoard("Knight Routing by Amirali")
+     dimension=20
+     squareSize=30
+     screenHeight=600
+     screenWidth=800
+     overHeadText="Knight Routing by Amirali"
+     c1=chessBoard(dimension,squareSize, screenHeight,screenWidth)
+     c1.drawBoard(overHeadText)
      c1.setBarriers()
-     c1.setSourceAndDestination()
+     srcRow, srcCol, desRow, desCol, boardArray= c1.setSourceAndDestination()
+     visitedAlongTheWay=[]

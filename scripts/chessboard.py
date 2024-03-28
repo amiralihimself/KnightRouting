@@ -72,6 +72,8 @@ class chessBoard:
                 barrier.draw(self.window)
 
     def setSourceAndDestination(self):
+        srcRow, srcCol, desRow, desCol=0,0,0,0
+        print(srcRow)
         display_prompt("Please choose the source")
         while True:
             mouseevent = self.window.getMouse()
@@ -97,9 +99,9 @@ class chessBoard:
                 if (self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] == 1)  or (self.boardArray[int(upper_bound / self.squareSize)][int(lower_bound / self.squareSize)] == 2):
                     continue
                 else:
-                    goalRow = int(upper_bound / self.squareSize)
-                    goalCol = int(lower_bound / self.squareSize)
-                    self.boardArray[goalRow][goalCol] = 3
+                    desRow = int(upper_bound / self.squareSize)
+                    desCol = int(lower_bound / self.squareSize)
+                    self.boardArray[desRow][desCol] = 3
                     goalSqr = graphics.Rectangle(graphics.Point(lower_bound, upper_bound), graphics.Point(lower_bound + self.squareSize, upper_bound + self.squareSize))
                     goalSqr.setFill("gold")
                     goalSqr.draw(self.window)
@@ -109,4 +111,4 @@ class chessBoard:
                     goaltext.draw(self.window)
                     break
 
-
+        return srcRow, srcCol, desRow, desCol, self.boardArray
